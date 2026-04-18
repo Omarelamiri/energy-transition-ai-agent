@@ -10,8 +10,9 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@langchain/langgraph": "^1.2.8",
+    "@langchain/langgraph": "^1.2.9",
     "ai": "^6.0.141",
+    "dotenv": "^17.4.2",
     "firebase": "^12.12.0",
     "lucide-react": "^1.7.0",
     "next": "16.2.1",
@@ -29,6 +30,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
