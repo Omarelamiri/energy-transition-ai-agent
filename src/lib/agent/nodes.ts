@@ -1,4 +1,4 @@
-import { CopilotState } from './state'
+import { CopilotState } from './state'  
 import { buildPrompt } from './prompts'
 import { gemini } from '../gemini'
 

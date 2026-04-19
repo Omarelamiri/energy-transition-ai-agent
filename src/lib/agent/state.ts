@@ -1,22 +1,19 @@
-export interface CopilotState {
-  // Contexte injecté au démarrage (depuis Firestore)
-  region: string
-  scenario_active: string
-  betas: Record<string, any>
-  gap_summary: Record<string, any>
-  result_badge_global: string
+import { Annotation } from '@langchain/langgraph'
 
-  // Mémoire de conversation
-  messages: Array<{ role: string; content: string }>
-  turn_count: number
+export const CopilotStateAnnotation = Annotation.Root({
+  region:              Annotation<string>({ default: () => 'marrakech_safi', reducer: (_, b) => b }),
+  scenario_active:     Annotation<string>({ default: () => 'central',        reducer: (_, b) => b }),
+  betas:               Annotation<Record<string, any>>({ default: () => ({}),  reducer: (_, b) => b }),
+  gap_summary:         Annotation<Record<string, any>>({ default: () => ({}),  reducer: (_, b) => b }),
+  result_badge_global: Annotation<string>({ default: () => 'MEDIUM',          reducer: (_, b) => b }),
+  messages:            Annotation<Array<{role: string; content: string}>>({ default: () => [], reducer: (_, b) => b }),
+  turn_count:          Annotation<number>({ default: () => 0,                 reducer: (_, b) => b }),
+  current_response:    Annotation<string>({ default: () => '',                reducer: (_, b) => b }),
+  response_badge:      Annotation<string>({ default: () => 'MEDIUM',          reducer: (_, b) => b }),
+  response_sources:    Annotation<string[]>({ default: () => [],              reducer: (_, b) => b }),
+  intent:              Annotation<string>({ default: () => 'other',           reducer: (_, b) => b }),
+  needs_clarification: Annotation<boolean>({ default: () => false,            reducer: (_, b) => b }),
+  error:               Annotation<string | null>({ default: () => null,       reducer: (_, b) => b }),
+})
 
-  // Output de chaque nœud
-  current_response: string
-  response_badge: string
-  response_sources: string[]
-
-  // Contrôle du flux
-  intent: string
-  needs_clarification: boolean
-  error: string | null
-}
+export type CopilotState = typeof CopilotStateAnnotation.State
