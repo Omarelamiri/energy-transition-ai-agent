@@ -1,16 +1,15 @@
-import { StateGraph, END } from '@langchain/langgraph'
+import { StateGraph, END, START } from '@langchain/langgraph'
 import { CopilotStateAnnotation } from './state'
 import { classifyIntent, callLLM, formatResponse } from './nodes'
 
 export function buildCopilotGraph() {
-  const graph = new StateGraph(CopilotStateAnnotation)
-
-  graph.addNode('classify_intent', classifyIntent)
-  graph.addNode('call_llm', callLLM)
-  graph.addNode('format_response', formatResponse)
-  graph.setEntryPoint('classify_intent')
-  graph.addEdge('classify_intent', 'call_llm')
-  graph.addEdge('call_llm', 'format_response')
-  graph.addEdge('format_response', END)
-  return graph.compile()
+  return new StateGraph(CopilotStateAnnotation)
+    .addNode('classify_intent', classifyIntent)
+    .addNode('call_llm', callLLM)
+    .addNode('format_response', formatResponse)
+    .addEdge(START, 'classify_intent')
+    .addEdge('classify_intent', 'call_llm')
+    .addEdge('call_llm', 'format_response')
+    .addEdge('format_response', END)
+    .compile()
 }
